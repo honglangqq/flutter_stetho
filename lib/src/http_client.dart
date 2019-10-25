@@ -131,16 +131,18 @@ class StethoHttpClient implements HttpClient {
     return client.openUrl(method, url).then((request) {
       final wrapped = _wrapResponse(request);
 
-      scheduleMicrotask(() {
-        MethodChannelController.requestWillBeSent(
-          new FlutterStethoInspectorRequest(
-            url: request.uri.toString(),
-            headers: headersToMap(request.headers),
-            method: request.method,
-            id: wrapped.id,
-          ),
-        );
-      });
+      if(method != "POST") {
+        scheduleMicrotask(() {
+          MethodChannelController.requestWillBeSent(
+            new FlutterStethoInspectorRequest(
+              url: request.uri.toString(),
+              headers: headersToMap(request.headers),
+              method: request.method,
+              id: wrapped.id,
+            ),
+          );
+        });
+      }
 
       return wrapped;
     });

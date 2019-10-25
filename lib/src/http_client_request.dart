@@ -7,9 +7,12 @@ import 'package:flutter_stetho/src/inspector_response.dart';
 import 'package:flutter_stetho/src/method_channel_controller.dart';
 import 'package:flutter_stetho/src/utils.dart';
 
+import 'inspector_request.dart';
+
 class StethoHttpClientRequest implements HttpClientRequest {
   final HttpClientRequest request;
   final String id;
+  Stream _stream;
 
   StethoHttpClientRequest(
     this.request,
@@ -28,6 +31,20 @@ class StethoHttpClientRequest implements HttpClientRequest {
 
   @override
   Future addStream(Stream<List<int>> stream) {
+    _stream = stream.asBroadcastStream();
+    _stream.listen((data) {}).onData((data) {
+         scheduleMicrotask(() {
+          MethodChannelController.requestWillBeSent(
+            new FlutterStethoInspectorRequest(
+              url: request.uri.toString(),
+              headers: headersToMap(request.headers),
+              method: request.method,
+              id: id,
+              body: data
+            ),
+          );
+        });
+    });
     return request.addStream(stream);
   }
 

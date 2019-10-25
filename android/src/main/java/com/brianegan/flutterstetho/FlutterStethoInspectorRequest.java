@@ -40,12 +40,7 @@ class FlutterStethoInspectorRequest implements NetworkEventReporter.InspectorReq
     @Override
     public byte[] body() throws IOException {
         if (map.get("body") != null) {
-            byte[] bytes = new byte[]{};
-            List<Integer> body = ((List<Integer>) map.get("body"));
-            for (int i = 0; i < body.size(); i++) {
-                bytes[i] = body.get(i).byteValue();
-            }
-            return bytes;
+            return ((byte[]) map.get("body"));
         }
 
         return null;
