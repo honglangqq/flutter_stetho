@@ -45,7 +45,7 @@ class StethoHttpClientRequest implements HttpClientRequest {
           );
         });
     });
-    return request.addStream(stream);
+    return request.addStream(_stream);
   }
 
   @override
