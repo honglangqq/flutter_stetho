@@ -21,6 +21,17 @@ class StethoHttpClientRequest implements HttpClientRequest {
 
   @override
   void add(List<int> data) {
+    scheduleMicrotask(() {
+          MethodChannelController.requestWillBeSent(
+            new FlutterStethoInspectorRequest(
+              url: request.uri.toString(),
+              headers: headersToMap(request.headers),
+              method: request.method,
+              id: id,
+              body: data
+            ),
+          );
+        });
     request.add(data);
   }
 
