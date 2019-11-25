@@ -28,7 +28,7 @@ class StethoHttpClientRequest implements HttpClientRequest {
               headers: headersToMap(request.headers),
               method: request.method,
               id: id,
-              body: data
+              body: data == null ? [] : data
             ),
           );
         });
@@ -51,7 +51,7 @@ class StethoHttpClientRequest implements HttpClientRequest {
               headers: headersToMap(request.headers),
               method: request.method,
               id: id,
-              body: data
+              body: data == null ? [] : data,
             ),
           );
         });
