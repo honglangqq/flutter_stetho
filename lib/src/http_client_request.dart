@@ -161,4 +161,9 @@ class StethoHttpClientRequest implements HttpClientRequest {
   void writeln([Object obj = ""]) {
     request.writeln(obj);
   }
+
+  @override
+  void abort([Object exception, StackTrace stackTrace]) {
+     // TODO 
+  }
 }
